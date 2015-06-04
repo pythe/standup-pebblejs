@@ -1,8 +1,8 @@
 {
-  "uuid": "133215f0-cf20-4c05-997b-3c9be5a64e5b",
-  "shortName": "Pebble.js",
-  "longName": "Pebble.js",
-  "companyName": "Meiguro",
+  "uuid": "4e52704c-01f0-42e1-a25c-f4c3b5b35ee3",
+  "shortName": "Standup",
+  "longName": "Standup for Pivotal Tracker",
+  "companyName": "Dungeoneer",
   "versionCode": 1,
   "versionLabel": "0.4",
   "capabilities": [
@@ -29,6 +29,26 @@
         "type": "png",
         "name": "IMAGE_TILE_SPLASH",
         "file": "images/tile_splash.png"
+      },
+      {
+        "file": "images/release.png",
+        "name": "IMAGES_RELEASE_PNG",
+        "type": "png"
+      },
+      {
+        "file": "images/feature.png",
+        "name": "IMAGES_FEATURE_PNG",
+        "type": "png"
+      },
+      {
+        "file": "images/chore.png",
+        "name": "IMAGES_CHORE_PNG",
+        "type": "png"
+      },
+      {
+        "file": "images/bug.png",
+        "name": "IMAGES_BUG_PNG",
+        "type": "png"
       },
       {
         "type": "font",
