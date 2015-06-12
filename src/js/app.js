@@ -6,7 +6,9 @@ var UI = require('ui'),
 var url;
 
 if (Settings.option('api_token')) {
-  url = 'https://standup-config.cfapps.io/login?api_token=' + Settings.option('api_token');
+  url = 'https://standup-config.cfapps.io/login?api_token='
+      + Settings.option('api_token')
+      + '&ids='+ Settings.option('project_ids');
 } else {
   url = 'https://standup-config.cfapps.io/login';
 }
@@ -52,12 +54,26 @@ var Standup = {
       banner: "images/logo_splash.png",
       body: configMessage
     });
-
+    this.loadingCard.on('longClick', 'select', this.showDebugCard);
     this.loadingCard.show();
 
     this.fetch();
   },
   attributes: {
+  },
+  showDebugCard: function() {
+
+    var debugBody = this.attributes ?
+        'apiToken: ' + this.attributes.apiKey
+        + '\ninitials: ' + this.attributes.initials
+        + '\nprojectIds: ' + this.attributes.projectIds
+        : 'No options set.',
+        debugCard = new UI.Card({
+      title: 'Debug',
+      body: debugBody,
+      scrollable: true
+    });
+    debugCard.show()
   },
   iconForStoryType: function(type) {
     switch(type) {
@@ -92,8 +108,6 @@ var Standup = {
         sections.push({title: sectionName, items: stories});
       }
     });
-
-
 
     return {
       sections: sections
@@ -130,7 +144,6 @@ var Standup = {
       var menuItems = self.buildMenu.call(self, myStories);
       var menu = new UI.Menu(menuItems);
       menu.on('select', function(e) {
-        console.log("Using image ", self.iconForStoryType(e.item.story_type));
         var card = new UI.Card({
           subtitle: " ",
           subicon: self.iconForStoryType(e.item.story_type),
@@ -145,13 +158,32 @@ var Standup = {
     }).catch(function(error) {
       console.log("error! ", error);
       console.log(JSON.stringify(error));
+      if(error.code === 'invalid_authentication') {
+        new UI.Card({
+          title: "Error",
+          body: 'Something went wrong with your authentication. Please open settings and try again.'
+        }).show();
+      } else {
+        new UI.Card({
+          title: "Error",
+          body: error.error
+        }).show();
+      }
     });
     Promise.all(promises).catch(function() {
       console.log("Fetch failed for some reason");
+      new UI.Card({
+        title: "Error",
+        body: error.error
+      }).show();
     });
   },
 
   reset: function() {
+    this.attributes.project_ids = [];
+    this.attributes.api_token = '';
+    this.attributes.initials = '';
+
     if (this.menu) {
       this.menu.hide();
       this.menu = undefined;

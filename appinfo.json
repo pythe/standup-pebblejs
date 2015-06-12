@@ -4,7 +4,7 @@
   "longName": "Standup for Pivotal Tracker",
   "companyName": "Dungeoneer",
   "versionCode": 1,
-  "versionLabel": "0.4",
+  "versionLabel": "0.5",
   "capabilities": [
     "configurable"
   ],
